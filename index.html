@@ -23,9 +23,18 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            /* HIER wird das erste Bild als dunkler Hintergrund geladen */
             background: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.95)), url('img/hero.jpg') center/cover;
             padding: 0 20px;
+        }
+        /* Styling für das neue Logo im Header */
+        .header-logo {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 25px rgba(243, 156, 18, 0.5);
         }
         h1 { font-size: 3.5rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
         h1 span { color: var(--primary); }
@@ -42,7 +51,6 @@
         .card { background: var(--card-bg); border-radius: 10px; text-align: center; transition: 0.3s; border-bottom: 4px solid transparent; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         .card:hover { border-bottom: 4px solid var(--primary); transform: translateY(-5px); }
         
-        /* Platzhalter für die generierten Bilder in den Karten */
         .card img { width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid var(--primary); }
         .card-content { padding: 30px 20px; }
         .card h3 { margin-bottom: 15px; font-size: 1.6rem; }
@@ -70,8 +78,9 @@
 <body>
 
     <header>
+        <img src="thumbs.png" alt="Power" class="header-logo reveal">
         <h1 class="reveal">Muskelkraft & <span>Köpfchen</span></h1>
-        <p class="subtitle reveal">Umzüge, Möbelmontage und Entrümpelung in Kassel und Umgebung. Zuverlässig. Handfest. Auch am Wochenende.</p>
+        <p class="subtitle reveal">Umzüge, Möbelmontage und Entrümpelungen in Kassel und Umgebung. Zuverlässig. Handfest. Auch am Wochenende.</p>
         <a href="#kalkulator" class="btn reveal">Aufwand kalkulieren</a>
     </header>
 
@@ -80,7 +89,7 @@
         <div class="services">
             <div class="card">
                 <div class="card-content">
-                    <h3>🚚 Schwerlast & Transport</h3>
+                    <h3>🚚 Transport & Umzug</h3>
                     <p>Kein Aufzug? Kein Problem. Ich bringe die nötige physische Power mit, um auch Massivholzmöbel sicher ans Ziel zu manövrieren. Fachgerechtes Packen inklusive.</p>
                 </div>
             </div>
@@ -88,7 +97,7 @@
             <div class="card">
                 <img src="img/montage.jpg" alt="Möbelmontage Profi">
                 <div class="card-content">
-                    <h3>🔧 Profi-Montage</h3>
+                    <h3>🔧 Montage</h3>
                     <p>Fachgerechter Ab- und Aufbau. Ich bringe mein eigenes Werkzeug mit und sorge dafür, dass jede Schraube perfekt sitzt und nichts wackelt.</p>
                 </div>
             </div>
@@ -96,7 +105,7 @@
             <div class="card">
                 <img src="img/entruempelung.jpg" alt="Entrümpelung und Entsorgung">
                 <div class="card-content">
-                    <h3>📦 Entrümpelung</h3>
+                    <h3>📦 Entrümpelungen</h3>
                     <p>Schnell, diskret und besenrein. Vom zugestellten Keller bis zur kompletten Wohnungsauflösung. Auch flexibel am Wochenende machbar.</p>
                 </div>
             </div>
@@ -108,10 +117,28 @@
         <p style="text-align: center; margin-bottom: 40px; font-size: 1.2rem;">Schätzen Sie hier unverbindlich den Arbeitsaufwand Ihres Projekts ein.</p>
         
         <div class="calculator">
+            
+            <div class="calc-group">
+                <label for="taetigkeit">Tätigkeit:</label>
+                <select id="taetigkeit" onchange="updateWorkers()">
+                    <option value="umzug">Umzug</option>
+                    <option value="entruempelung">Entrümpelungen</option>
+                    <option value="transport">Transport</option>
+                    <option value="montage">Montage</option>
+                </select>
+            </div>
+
+            <div class="calc-group">
+                <label for="arbeiter">Anzahl der Arbeiter:</label>
+                <select id="arbeiter" onchange="updateCalc()">
+                    </select>
+            </div>
+
             <div class="calc-group">
                 <label for="rooms">Anzahl der Zimmer (Wohnungsgröße): <span id="roomCount" style="color: var(--primary);">2</span> Zimmer</label>
                 <input type="range" id="rooms" min="1" max="6" value="2" oninput="updateCalc()">
             </div>
+            
             <div class="calc-group">
                 <label for="floor">Höchste Etage (ohne Aufzug):</label>
                 <select id="floor" onchange="updateCalc()">
@@ -122,59 +149,90 @@
                     <option value="4">4. Etage oder höher (Extremsport)</option>
                 </select>
             </div>
-            <div class="calc-group">
-                <label for="montage">Möbelmontage benötigt?</label>
-                <select id="montage" onchange="updateCalc()">
-                    <option value="0">Nein, nur reiner Transport</option>
-                    <option value="1">Ja, Standard (Betten, einfache Schränke)</option>
-                    <option value="2">Ja, Komplett (inkl. Küchenteile, große Wohnwände)</option>
-                </select>
-            </div>
             
             <div class="result-box">
                 Geschätzter Aufwand:<br>
-                <span id="estimateVal" style="color: var(--primary);">Ca. 4 - 5 Stunden</span>
+                <span id="estimateVal" style="color: var(--primary);">Ca. 2 - 3 Stunden</span>
             </div>
-            <p style="text-align: center; margin-top: 20px; font-size: 0.95rem; color: #aaa;">Dies ist ein grober Richtwert basierend auf Erfahrungswerten.</p>
+            <p style="text-align: center; margin-top: 20px; font-size: 0.95rem; color: #aaa;">Dies ist ein grober Richtwert basierend auf Erfahrungswerten. Die Zeiten wurden bereits um 25% reduziert.</p>
         </div>
 
         <div class="contact-box reveal">
             <h2>Lass uns loslegen</h2>
             <p>Du hast die Eckdaten? Dann schreib mir direkt eine Nachricht und wir klären die Details.</p>
-            <a href="mailto:1578323@mail.de?subject=Anfrage:%20Umzug%20/%20Montage&body=Hallo%20David,%0A%0Aich%20habe%20folgendes%20Anliegen:%0A-%20Was%20ist%20zu%20tun:%20%0A-%20Von%20wo%20nach%20wo:%20%0A-%20Wunschtermin:%20%0A%0ABitte%20melde%20dich%20bei%20mir.%0A%0AGruß," class="btn">Direkt per E-Mail anfragen</a>
+            <a href="mailto:1578323@mail.de?subject=Anfrage:%20Umzug%20/%20Montage&body=Hallo%20Donni,%0A%0Aich%20habe%20folgendes%20Anliegen:%0A-%20Was%20ist%20zu%20tun:%20%0A-%20Von%20wo%20nach%20wo:%20%0A-%20Wunschtermin:%20%0A%0ABitte%20melde%20dich%20bei%20mir.%0A%0AGruß," class="btn">Direkt per E-Mail anfragen</a>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 David | Umzüge & Montage Kassel</p>
+        <p>&copy; 2026 Donni | Umzüge & Montage Kassel</p>
     </footer>
 
     <script>
-        // Voll funktionaler Kalkulator
+        // Logik für die dynamische Arbeiter-Auswahl
+        function updateWorkers() {
+            const taetigkeit = document.getElementById('taetigkeit').value;
+            const arbeiterSelect = document.getElementById('arbeiter');
+            
+            // Leert das Dropdown
+            arbeiterSelect.innerHTML = '';
+            
+            // Logik: Umzug & Entrümpelungen = mind. 2 bis 3 Arbeiter
+            if (taetigkeit === 'umzug' || taetigkeit === 'entruempelung') {
+                arbeiterSelect.add(new Option('2 Arbeiter', '2'));
+                arbeiterSelect.add(new Option('3 Arbeiter', '3'));
+            } 
+            // Logik: Transport & Montage = 1 bis 3 Arbeiter
+            else {
+                arbeiterSelect.add(new Option('1 Arbeiter', '1'));
+                arbeiterSelect.add(new Option('2 Arbeiter', '2'));
+                arbeiterSelect.add(new Option('3 Arbeiter', '3'));
+            }
+            
+            // Sobald sich die Arbeiter ändern, sofort die Zeit neu berechnen
+            updateCalc();
+        }
+
+        // Voll funktionaler Kalkulator mit neuen Parametern
         function updateCalc() {
+            const taetigkeit = document.getElementById('taetigkeit').value;
+            const arbeiter = parseInt(document.getElementById('arbeiter').value) || 1;
             const rooms = parseInt(document.getElementById('rooms').value);
             const floor = parseInt(document.getElementById('floor').value);
-            const montage = parseInt(document.getElementById('montage').value);
             
             document.getElementById('roomCount').innerText = rooms;
 
-            // Basis-Stunden anhand der Zimmer
-            let hours = rooms * 2; 
+            // 1. Basis-Stunden anhand der Zimmer (Arbeitsaufwand für 1 Person)
+            let totalHours = rooms * 2.5; 
 
-            // Etagen-Zuschlag
-            hours += floor * 0.5;
+            // 2. Etagen-Zuschlag (Trageweg)
+            if (taetigkeit !== 'montage') { // Bei Montage spielt die Etage eine geringere Rolle
+                totalHours += floor * 0.5;
+            }
 
-            // Montage-Zuschlag
-            if (montage === 1) hours += 1.5;
-            if (montage === 2) hours += 3.5;
+            // 3. Spezifische Tätigkeits-Zuschläge
+            if (taetigkeit === 'montage') totalHours += 1.5;
+            if (taetigkeit === 'entruempelung') totalHours += 1.0; // Sortieren kostet Zeit
 
-            let minHours = Math.floor(hours);
-            let maxHours = Math.ceil(hours + 1);
+            // 4. Zeit durch Arbeiter teilen (Je mehr Hände, desto schneller, abzüglich leichtem Effizienzverlust)
+            let duration = totalHours / (arbeiter * 0.85);
+
+            // 5. ZEITREDUZIERUNG UM 25% (wie gefordert)
+            duration = duration * 0.75;
+
+            // Absolutes Minimum ist 1 Stunde
+            if (duration < 1) duration = 1;
+
+            let minHours = Math.floor(duration);
+            let maxHours = Math.ceil(duration + 1);
+
+            // Falls Minimum und Maximum gleich sind, etwas Puffer geben
+            if (minHours === maxHours) maxHours += 1;
 
             document.getElementById('estimateVal').innerText = `Ca. ${minHours} - ${maxHours} Stunden`;
         }
 
-        // Weiche Scroll-Animation beim Runterscrollen (Intersection Observer Logik)
+        // Weiche Scroll-Animation beim Runterscrollen
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -186,8 +244,14 @@
                 }
             }
         }
+        
         window.addEventListener("scroll", reveal);
-        reveal(); // Init on load
+        
+        // Beim Laden der Seite initialisieren
+        window.onload = function() {
+            updateWorkers(); // Befüllt die Arbeiter beim Start korrekt
+            reveal(); // Startet die Animation
+        };
     </script>
 </body>
 </html>
